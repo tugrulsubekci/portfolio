@@ -1,0 +1,44 @@
+name: Publish public snapshot
+
+# Mirrors main to the public repo tugrulsubekci/portfolio as a single commit,
+# replacing the previous one, so the public copy never shows history or diffs.
+# Runs only in the private repo (the workflow file is also copied to the public one).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: publish-public
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.repository == 'tugrulsubekci/portfolio-dev'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Push single-commit snapshot
+        env:
+          DEPLOY_KEY: ${{ secrets.PUBLIC_REPO_DEPLOY_KEY }}
+          GIT_AUTHOR_NAME: Tugrul Subekci
+          GIT_AUTHOR_EMAIL: 104980354+tugrulsubekci@users.noreply.github.com
+          GIT_COMMITTER_NAME: Tugrul Subekci
+          GIT_COMMITTER_EMAIL: 104980354+tugrulsubekci@users.noreply.github.com
+        run: |
+          # Write-access deploy key on tugrulsubekci/portfolio (Settings > Deploy keys).
+          key="$RUNNER_TEMP/deploy_key"
+          printf '%s\n' "$DEPLOY_KEY" > "$key"
+          chmod 600 "$key"
+          export GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+          commit=$(git commit-tree "HEAD^{tree}" -m "tugrulsubekci.com")
+          git push --force git@github.com:tugrulsubekci/portfolio.git "${commit}:refs/heads/main"
+          rm -f "$key"

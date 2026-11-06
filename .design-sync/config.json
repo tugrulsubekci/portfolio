@@ -1,0 +1,61 @@
+{
+  "projectId": "d104787d-6b0f-4fa6-bcd8-1947ae571e59",
+  "pkg": "portfolio",
+  "globalName": "Portfolio",
+  "shape": "storybook",
+  "storybookConfigDir": ".storybook",
+  "storybookStatic": ".design-sync/sb-reference",
+  "srcDir": "../../../src/components",
+  "tsconfig": "tsconfig.bundle.json",
+  "entry": ".design-sync/.cache/pkg/index.ts",
+  "buildCmd": "node .design-sync/build-types.mjs",
+  "extraEntries": [
+    "../../PortfolioRoot.tsx"
+  ],
+  "extraFonts": [
+    "../../fonts/inter.css"
+  ],
+  "readmeHeader": ".design-sync/conventions.md",
+  "provider": {
+    "component": "PortfolioRoot",
+    "props": {
+      "theme": "dark"
+    }
+  },
+  "overrides": {
+    "Spotlight": {
+      "cardMode": "single",
+      "primaryStory": "Default"
+    },
+    "ProjectCard": {
+      "cardMode": "column"
+    },
+    "AboutSection": {
+      "viewport": "900x900"
+    },
+    "ExperienceSection": {
+      "viewport": "900x900"
+    },
+    "ProjectsArchiveTable": {
+      "viewport": "900x1500"
+    },
+    "ProjectsSection": {
+      "viewport": "900x1850"
+    },
+    "Sidebar": {
+      "viewport": "1280x900"
+    },
+    "ProjectsArchiveList": {
+      "viewport": "390x3400"
+    },
+    "Tooltip": {
+      "cardMode": "single",
+      "primaryStory": "Default"
+    }
+  },
+  "storyImports": {
+    "shim": [
+      "src/components/ui/"
+    ]
+  }
+}

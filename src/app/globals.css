@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Respect the OS "reduce motion" setting: no transitions, animations or smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* shadcn/ui's `dark:` classes follow the site theme (dark unless <html data-theme="light">). */
+@custom-variant dark (&:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *));
+
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: var(--color-slate-900);
+  --card: var(--color-slate-900);
+  --surface: var(--color-slate-800);
+  --media: var(--color-slate-700);
+  --media-border: var(--color-slate-600);
+  --strong: var(--color-white);
+  --heading: var(--color-slate-200);
+  --subtle: var(--color-slate-300);
+  --body: var(--color-slate-400);
+  --faint: var(--color-slate-500);
+  --brand: var(--color-teal-400);
+  --brand-hover: var(--color-teal-300);
+  --indicator: var(--color-blue-400);
+  --indicator-idle: var(--color-gray-500);
+  --line: var(--color-slate-800);
+  --line-strong: var(--color-slate-700);
+  --danger: var(--color-red-400);
+  --spotlight: rgba(29, 78, 216, 0.15);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page: var(--color-slate-50);
+  --card: var(--color-white);
+  --surface: var(--color-slate-200);
+  --media: var(--color-slate-200);
+  --media-border: var(--color-slate-300);
+  --strong: var(--color-slate-900);
+  --heading: var(--color-slate-800);
+  --subtle: var(--color-slate-700);
+  --body: var(--color-slate-600);
+  --faint: var(--color-slate-400);
+  --brand: var(--color-teal-700);
+  --brand-hover: var(--color-teal-800);
+  --indicator: var(--color-blue-600);
+  --indicator-idle: var(--color-slate-400);
+  --line: var(--color-slate-200);
+  --line-strong: var(--color-slate-300);
+  --danger: var(--color-red-600);
+  --spotlight: rgba(29, 78, 216, 0.07);
+}
+
+/*
+ * shadcn/ui tokens, mapped onto the site palette above. They reference the site
+ * tokens, so they switch with data-theme automatically - no separate .dark block.
+ * Note: shadcn's `muted`/`accent` are SURFACE colours (hover/subtle backgrounds);
+ * the site's body-text and teal-link tokens are `body` and `brand`.
+ */
+:root {
+  --background: var(--page);
+  --foreground: var(--strong);
+  --card-foreground: var(--strong);
+  --popover: var(--surface);
+  --popover-foreground: var(--strong);
+  --primary: var(--brand);
+  --primary-foreground: var(--page);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--strong);
+  --muted: var(--surface);
+  --muted-foreground: var(--body);
+  --accent: var(--surface);
+  --accent-foreground: var(--strong);
+  --destructive: var(--danger);
+  --border: var(--line-strong);
+  --input: var(--line-strong);
+  --ring: var(--brand);
+  --radius: 0.5rem;
+}
+
+/* Semantic colour tokens: use these (bg-page, text-body, ...) instead of raw palette colours. */
+@theme inline {
+  /* site */
+  --color-page: var(--page);
+  --color-card: var(--card);
+  --color-surface: var(--surface);
+  --color-media: var(--media);
+  --color-media-border: var(--media-border);
+  --color-strong: var(--strong);
+  --color-heading: var(--heading);
+  --color-subtle: var(--subtle);
+  --color-body: var(--body);
+  --color-faint: var(--faint);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-indicator: var(--indicator);
+  --color-indicator-idle: var(--indicator-idle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  /* shadcn/ui */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+
+  /* fonts: --font-inter / --font-geist-mono are set by next/font on <body> */
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
+
+body {
+  background: var(--page);
+  color: var(--strong);
+  font-family: var(--font-inter), sans-serif;
+}
